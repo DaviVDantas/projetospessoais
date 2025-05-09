@@ -1,97 +1,109 @@
-🚀 Sistema Desktop em Python (PySide2 + SQLite)
-Este é um sistema desktop moderno, simples e funcional, desenvolvido usando Python com a biblioteca PySide2 (Qt for Python) e banco de dados SQLite.
-O sistema permite a navegação entre múltiplas páginas usando botões, sendo ideal para projetos como cadastro de produtos, controle de estoque, ou gestão administrativa.
+🧱 1. Organização e Estrutura do Código
+Problemas encontrados:
 
-🎯 Funcionalidades Principais
-✅ Navegação entre páginas (usando botões conectados entre as telas)
+Código está fortemente acoplado entre lógica de negócios e interface.
 
-✅ Banco de dados SQLite integrado para salvar informações
+Muitos print para debug.
 
-✅ Estrutura pronta para cadastro e controle de dados (produtos, clientes, etc)
+Melhorias:
 
-✅ Fácil de personalizar: você pode adicionar novas páginas e funcionalidades
+Separação por camadas (MVC ou MVVM):
 
-✅ Funciona em Windows, Linux e MacOS
+models/ → regras de negócio e acesso ao banco.
 
-📚 Páginas Inclusas no Sistema
-🏠 Home — Tela inicial do sistema
+views/ → arquivos .ui e scripts derivados com PyQt.
 
-📥 Importação — Área para importar dados ou arquivos
+controllers/ → lógica que conecta UI com a lógica de negócio.
 
-📊 Tabela — Exibição de tabelas e registros do banco de dados
+Uso de logging em vez de print:
 
-📝 Cadastro — Formulário para cadastrar novas informações
+Substitua print() por logging.debug/info/warning/error().
 
-📦 Cadastro de Produto — Área específica para cadastrar produtos
+🔒 2. Segurança
+Problemas encontrados:
 
-ℹ️ Sobre — Informações sobre o sistema e sua finalidade
+Login sem hashing de senha.
 
-📞 Contato — Página com informações de contato
+Banco SQLite pode ser aberto diretamente sem proteção.
 
-🔧 Tecnologias Usadas
-🐍 Python 3 — Linguagem de programação principal
+Melhorias:
 
-🎨 PySide2 (Qt for Python) — Framework para criação das telas (UI)
+Hash de senhas com bcrypt ou argon2:
 
-🗄️ SQLite3 — Banco de dados local, leve e eficiente
-
-🛠️ Qt Designer — Ferramenta usada para criar os arquivos .ui (as telas)
-
-📂 Estrutura do Projeto
-graphql
+python
 Copiar
 Editar
-📁 Projeto/
- ├── ui_main.ui       # Tela principal com botões e páginas (feita no Qt Designer)
- ├── banco.db         # Banco de dados SQLite com as tabelas
- ├── main.py          # Código principal que conecta a UI com a lógica
- └── README.md        # Este arquivo com todas as informações do projeto
-▶️ Como Executar o Projeto
-Passo 1) Instalar as bibliotecas necessárias
-Abra seu terminal ou prompt e digite:
+import bcrypt
+hash = bcrypt.hashpw(senha.encode(), bcrypt.gensalt())
+Validação de entradas do usuário: sanitize inputs contra SQL injection mesmo com sqlite3.
 
-bash
+🧠 3. Qualidade de Código
+Problemas encontrados:
+
+Códigos repetidos e métodos muito longos.
+
+Nomes de variáveis pouco descritivos (linha, item, data...).
+
+Melhorias:
+
+Refatoração: extraia funções com nomes claros.
+
+Use type hints:
+
+python
 Copiar
 Editar
-pip install PySide2
-Passo 2) Executar o sistema
-Ainda no terminal, execute o arquivo principal:
+def autenticar_usuario(usuario: str, senha: str) -> bool:
+PEP8: use ferramentas como flake8, black, isort.
 
-bash
-Copiar
-Editar
-python main.py
-✅ Pronto! O sistema vai abrir com a tela principal e todas as páginas estarão funcionando.
+📦 4. Banco de Dados
+Problemas encontrados:
 
-🚀 Para Que Este Projeto Serve?
-Este sistema é ideal para quem quer criar:
+Não há verificação de integridade nem uso de relacionamentos.
 
-✅ Sistemas de cadastro de clientes
+Consultas SQL cruas com f-strings (risco de SQL injection).
 
-✅ Controle de estoque e produtos
+Melhorias:
 
-✅ Sistemas administrativos para pequenas e médias empresas
+ORM leve como SQLAlchemy ou Peewee para facilitar manutenção e segurança.
 
-✅ Projetos de portfólio para apresentar suas habilidades
+Chaves estrangeiras e constraints no banco.
 
-📢 Sobre Este Projeto
-Criado por Davi Dantas como parte dos projetos pessoais e educacionais.
-Feito com foco em ser simples, fácil de expandir e 100% funcional.
+Adicionar try/except nas transações com rollback.
 
-Não precisa de internet para funcionar
+💻 5. Interface Gráfica (UI/UX)
+Problemas encontrados:
 
-Não usa servidor externo (tudo local na sua máquina)
+A interface é funcional, mas pouco amigável ou responsiva.
 
-Pronto para ser adaptado e evoluir para sistemas maiores
+Layouts fixos em vez de responsivos.
 
-✅ Status do Projeto
-100% funcional e pronto para uso.
-Você pode adicionar mais funcionalidades, novas páginas e conectar com outros bancos de dados no futuro.
+Melhorias:
 
-Autor: Davi Dantas
-Tecnologia: Python + PySide2 + SQLite3
-Objetivo: Criar sistemas desktop simples e poderosos
+Use QVBoxLayout, QHBoxLayout, QGridLayout em vez de posicionamento fixo.
 
-💪 Projeto testado e funcionando!
-🔒 100% offline
-🚀 Pronto para evoluir para um sistema completo!
+Valide formulários com mensagens amigáveis.
+
+Adicione ícones e feedback visual (ex: QMessageBox, QProgressBar, tooltips).
+
+Tradução com Qt Linguist para suporte multilíngue.
+
+⚙️ 6. Funcionalidades adicionais
+Sugestões de valor:
+
+Relatórios de entrada/saída por data (usando pandas/matplotlib).
+
+Exportação para PDF ou Excel.
+
+Níveis de permissão por usuário.
+
+Histórico de alterações no estoque.
+
+✅ 7. Deploy e Empacotamento
+Melhorias sugeridas:
+
+Use PyInstaller ou cx_Freeze para gerar executável.
+
+Adicione um script de instalação.
+
+Crie testes com pytest e CI com GitHub Actions.
