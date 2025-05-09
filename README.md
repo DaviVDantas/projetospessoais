@@ -1,5 +1,5 @@
 # projetospessoais
-[15:20, 09/05/2025] Davi Dantas: # 🚀 Sistema Desktop em Python (PySide2 + SQLite)
+Davi Dantas: # 🚀 Sistema Desktop em Python (PySide2 + SQLite)
 
 Um sistema desktop simples e funcional feito com *Python (PySide2)* e *SQLite*.  
 Permite a navegação entre múltiplas páginas através de botões, pronto para ser expandido para sistemas de cadastro, controle de estoque ou gestão administrativa.
